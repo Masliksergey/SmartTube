@@ -99,7 +99,7 @@ android {
         }
     }
     
-    buildTypes {
+        buildTypes {
         release {
             // Enable minification
             // shrinkResources true
@@ -109,33 +109,16 @@ android {
 
             if (keystorePropertiesFile.exists()) {
                 signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
             }
         }
         // Use same key for release and debug for testing
         debug {
-            if (keystorePropertiesFile.exists()) {
-                signingConfig signingConfigs.release
-            }
+            signingConfig signingConfigs.debug
         }
     }
 
-    // naming example: SmartYouTubeTV_Xwalk_v6.8.12_r.apk
-    // https://stackoverflow.com/questions/18332474/how-to-set-versionname-in-apk-filename-using-gradle
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            def project = "SmartTube"
-            def flavor = variant.productFlavors[-1].name.substring(2) // remove st prefix
-            def buildType = variant.buildType.name.take(1)
-            def version = variant.versionName
-            def arch = output.getFilter(com.android.build.OutputFile.ABI)
-            arch = arch != null ? arch : "universal"
-
-            def newApkName = sprintf("%s_%s_%s_%s.apk", [project, flavor, version, arch])
-
-            // gradle 4.6 migration
-            output.outputFileName = new File(newApkName)
-        }
-    }
 
     packagingOptions {
         // openvpn module fix: More than one file was found with OS independent path 'META-INF/com.android.tools/proguard/coroutines.pro'
