@@ -1,5 +1,6 @@
 package com.liskovsoft.smartyoutubetv2.tv.ui.playback;
 
+import android.annotation.SuppressLint;
 import android.media.session.PlaybackState;
 import android.os.Build.VERSION;
 import android.os.Bundle;
@@ -472,6 +473,7 @@ public class PlaybackFragment extends SeekModePlaybackFragment implements Playba
         mAmbilight.start();
     }
 
+    @SuppressLint("NewApi")
     private void stopAmbilight() {
         if (mAmbilight != null) {
             mAmbilight.stop();
